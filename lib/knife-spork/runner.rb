@@ -115,11 +115,11 @@ module KnifeSpork
       end
 
       def environment_path
-        spork_config[:environment_path] || cookbook_path.gsub("/cookbooks","/environments")
+        File.join(spork_config[:environment_path],ENV['ORGNAME'].gsub(/(_\w.*)/,'')) || cookbook_path.gsub("/cookbooks","/environments")
       end
 
       def role_path
-        spork_config[:role_path] || cookbook_path.gsub("/cookbooks","/roles")
+        File.join(spork_config[:role_path],ENV['ORGNAME'].gsub(/(_\w.*)/,''))|| cookbook_path.gsub("/cookbooks","/roles")
       end
 
       def all_cookbooks
@@ -245,7 +245,7 @@ module KnifeSpork
       end
 
       def ensure_cookbook_path!
-        if !config.has_key?(:cookbook_path)
+        unless config.has_key?(:cookbook_path)
           ui.fatal "No default cookbook_path; Specify with -o or fix your knife.rb."
           show_usage
           exit(1)
