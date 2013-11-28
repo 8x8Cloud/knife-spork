@@ -45,7 +45,7 @@ module KnifeSpork
           return "<b>#{ENV['ORGNAME']}</b>: "
         elsif not ::Chef::Config.chef_server_url.nil?
           split_server_url = Chef::Config.chef_server_url.gsub(/http(s)?:\/\//,"").split('/')
-          return "#{split_server_url.last}: " split_server_url.length > 1
+          return "#{split_server_url.last}: " if split_server_url.length > 1
         end
 
         nil
