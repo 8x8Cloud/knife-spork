@@ -41,11 +41,11 @@ module KnifeSpork
       end
 
       def organization
-        unless ::Chef::Config.chef_server_url.nil?
+        if ENV['ORGNAME']
+          return "<b>#{ENV['ORGNAME']}</b>: "
+        elsif not ::Chef::Config.chef_server_url.nil?
           split_server_url = Chef::Config.chef_server_url.gsub(/http(s)?:\/\//,"").split('/')
-          if split_server_url.length > 1
-            return "#{split_server_url.last}: "
-          end
+          return "#{split_server_url.last}: " split_server_url.length > 1
         end
 
         nil
@@ -64,7 +64,7 @@ module KnifeSpork
       end
 
       def environment_path
-        @options[:environment_path]
+        @options[:environment_path] + ENV['ORGNAME'].gsub(/(_\w.*)/,'')
       end
 
       def cookbook_path
