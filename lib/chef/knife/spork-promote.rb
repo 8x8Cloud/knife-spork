@@ -56,7 +56,7 @@ module KnifeSpork
 
         promote(environment, @cookbook)
 
-        ui.msg "Saving changes to #{e}.json"
+        ui.msg "Saving changes to #{environment_path}/#{e}.json"
 
         new_environment_json = pretty_print_json(environment.to_hash)
         save_environment_changes(e, new_environment_json)
@@ -130,7 +130,7 @@ module KnifeSpork
     end
 
     def save_environment_changes(environment, json)
-      environments_path = spork_config[:environment_path] || cookbook_path.gsub('cookbooks', 'environments')
+      environments_path = environment_path || cookbook_path.gsub('cookbooks', 'environments')
       environment_path = File.expand_path( File.join(environments_path, "#{environment}.json") )
 
       File.open(environment_path, 'w'){ |f| f.puts(json) }
